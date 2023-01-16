@@ -11,12 +11,13 @@ from .models import Post, Comments, Like
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 import json
+from snip_app.models import Snip
 
 class PostListView(ListView):
-	model = Post
+	model = Snip
 	template_name = 'feed/home.html'
 	context_object_name = 'posts'
-	ordering = ['-date_posted']
+	ordering = ['-created_at']
 	paginate_by = 10
 	def get_context_data(self, **kwargs):
 		context = super(PostListView, self).get_context_data(**kwargs)

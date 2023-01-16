@@ -27,6 +27,9 @@
       type="text/css"
       href="https://dl.dropboxusercontent.com/s/ecyb1drs5j1jyjf/styles.css?dl=0"
     />
+    <link href="{% static 'css/prism.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     {% block cssfiles %}{% endblock cssfiles %}
     <title>CodeShare</title>
   </head>
@@ -59,6 +62,9 @@
           <a class="nav-item nav-link" href="{% url 'post-create' %}"
             >Create Post</a
           >
+          <a class="nav-item nav-link" href="{% url 'snip_index' %}"
+            >Create Snippet</a
+          >
           <a
             class="nav-item nav-link btn btn-danger ml-4 text-light"
             href="{% url 'logout' %}"
@@ -90,6 +96,7 @@
     </footer>
 
     <!-- JS Files -->
+    <script src="{% static 'js/prism.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
