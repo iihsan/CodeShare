@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'feed.apps.FeedConfig',
+    'snip_app',
     'crispy_forms',
     'stdimage',
     'django.contrib.admin',

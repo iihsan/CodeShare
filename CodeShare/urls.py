@@ -6,6 +6,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+    path('snip/',include('snip_app.urls')),
+    # url('upload/',include('fileupload.urls')),
+    # url('accounts/', include('accounts.urls')),
 	path('admin/', admin.site.urls),
 	path('', include('feed.urls')),
 	path('users/', user_views.users_list, name='users_list'),
