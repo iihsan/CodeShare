@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from .models import Snip
+from feed.models import Post
 from .forms import snipForm, searchForm
 
 
@@ -18,7 +19,7 @@ def show_snip(request,link_c):
     return render(request, "detail.html", {'searchform':searchform,'snip': snip,'snips':snips})
 
 def all(request):
-    snips = Snip.objects.all()
+    snips = Post.objects.all()
     searchform=searchForm()
     if request.method=="POST":
         try:
@@ -30,7 +31,7 @@ def all(request):
     return render(request, 'all.html', {'searchform':searchform,'snips': snips})
 
 def index(request):
-    snips=Snip.objects.order_by('-updated_at')[:8]
+    snips=Post.objects.order_by('-updated_at')[:8]
     form=snipForm(initial={'author':request.user})
     if request.method=="POST":
         try:
@@ -44,8 +45,8 @@ def index(request):
     if request.method=="POST":
         try:
             searchform=searchForm(request.POST)
-            x = 'a'
-            return HttpResponseRedirect("/search/"+x) 
+            x = request.POST.get('search', '')
+            return HttpResponseRedirect("/search_posts/?p="+x) 
         except ValueError:
             pass
 
