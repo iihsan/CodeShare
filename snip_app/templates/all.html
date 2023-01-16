@@ -17,7 +17,7 @@
 <div class="card" style="margin-bottom: 15px;">
   <header class="card-header">
     <p class="card-header-title">
-      {{i.link_code}}
+      {{i.id}}
     </p>
     <a href="{% url 'show_snips' i.link_code %}" class="card-header-icon" aria-label="more options">
       <span class="icon">
@@ -28,7 +28,7 @@
   <div class="card-content">
     <div class="content">
       <pre style="  overflow: hidden;
-      max-height: 25ch;"><code class="language-{{i.lang}} line-numbers">{{i.text}}</code></pre>
+      max-height: 25ch;"><code class="language-{{i.lang}} line-numbers">{{i.title}}</code></pre>
       <time datetime="2016-1-1">{{i.updated_at}}</time>
       <div style="text-align: right;">
       {% if user.is_authenticated and user == i.author %}

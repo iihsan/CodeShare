@@ -16,9 +16,9 @@
       {% for post in posts %}
       <div class="card card-signin my-5">
         <div class="card-body">
-          <a href="{{ post.user_name.profile.get_absolute_url }}"
+          <a href="{{ post.author.profile.get_absolute_url }}"
             ><img
-              src="{{ post.user_name.profile.image.url }}"
+              src="{{ post.author.profile.image.url }}"
               class="rounded-circle"
               width="30"
               height="30"
@@ -27,20 +27,25 @@
           <a
             class="text-dark"
             href="{{ post.author.profile.get_absolute_url }}"
-            ><b>{{ post.user_name }}</b></a
+            ><b>{{ post.author }}</b></a
           >
           <br /><small class="text-muted"
-            >Posted on {{ post.date_posted }}</small
+            >Posted on {{ post.posted_on }}</small
           >
-          <br /><br />
+          <br><br/>
+          <p style="font-size: 20px; 
+          color: rgb(4, 169, 235); 
+          text-align: left; 
+          margin: 0 0 10px 0; 
+          text-shadow: 0px 1px 0px #f2f2f2;">{{ post.title }}</p>
           <p class="card-text text-dark">{{ post.description }}</p>
-          <pre><code class="language-Python line-numbers">{{post.description}} {{post.text}}</code></pre>
+          <br />
+          <pre><code class="language-{{post.lang}} line-numbers">{{post.code}}</code></pre>
         </div>
-        <a href="{% url 'post-detail' post.id %}"
+        <!-- <a href="{% url 'post-detail' post.id %}"
           ><img class="card-img-top" src="{{ post.pic.url }}" alt=""
-        /></a>
+        /></a> -->
         {% if post.tags %}
-        <br />
         <p class="text-danger ml-3">
           <b>Tags: <i>{{ post.tags }}</i></b>
         </p>

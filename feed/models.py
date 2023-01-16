@@ -5,27 +5,107 @@ from django.utils import timezone
 
 # This model is for any post that a user posts on the website.
 class Post(models.Model):
-	description = models.CharField(max_length=255, blank=True)
-	pic = models.ImageField(upload_to='path/to/img', null=True, blank=True, default='path/to/img/88333_yBEtwnw.jpg')
-	date_posted = models.DateTimeField(default=timezone.now)
-	user_name = models.ForeignKey(User, on_delete=models.CASCADE)
-	tags = models.CharField(max_length=100, blank=True)
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=50, null=True)
+    description = models.CharField(max_length=255, blank=True)
+    code = models.TextField(blank=True, null=True)
+    langs = [('text', 'None'),
+            ('Markup', 'markup'),
+            ('html', 'html'),
+             ('CSS', 'css'),
+             ('C-like', 'clike'),
+             ('JavaScript', 'javascript, js'),
+             ('Arduino', 'arduino'),
+             ('Bash', 'bash, shell'),
+             ('BASIC', 'basic'),
+             ('C', 'c'),
+             ('C#', 'csharp, cs, dotnet'),
+             ('Cpp', 'cpp'),
+             ('CoffeeScript', 'coffeescript, coffee'),
+             ('CMake', 'cmake'),
+             ('Clojure', 'clojure'),
+             ('Django/Jinja2', 'django, jinja2'),
+             ('Docker', 'docker, dockerfile'),
+             ('Git', 'git'),
+             ('GameMaker Language', 'gml, gamemakerlanguage'),
+             ('Go', 'go'),
+             ('GraphQL', 'graphql'),
+             ('Groovy', 'groovy'),
+             ('Haml', 'haml'),
+             ('HTTP', 'http'),
+             ('Icon', 'icon'),
+             ('Java', 'java'),
+             ('JavaDoc', 'javadoc'),
+             ('JSDoc', 'jsdoc'),
+             ('JSON', 'json'),
+             ('JSONP', 'jsonp'),
+             ('JSON5', 'json5'),
+             ('Kotlin', 'kotlin'),
+             ('LaTeX', 'latex, tex, context'),
+             ('Latte', 'latte'),
+             ('Less', 'less'),
+             ('LiveScript', 'livescript'),
+             ('Lua', 'lua'),
+             ('Makefile', 'makefile'),
+             ('Markdown', 'markdown, md'),
+             ('MATLAB', 'matlab'),
+             ('nginx', 'nginx'),
+             ('Objective-C', 'objectivec'),
+             ('OpenCL', 'opencl'),
+             ('Parser', 'parser'),
+             ('Pascal', 'pascal, objectpascal'),
+             ('Perl', 'perl'),
+             ('PHP', 'php'),
+             ('PL/SQL', 'plsql'),
+             ('PowerShell', 'powershell'),
+             ('Pug', 'pug'),
+             ('Python', 'python, py'),
+             ('R', 'r'),
+             ('React JSX', 'jsx'),
+             ('React TSX', 'tsx'),
+             ('Regex', 'regex'),
+             ('Ruby', 'ruby, rb'),
+             ('Rust', 'rust'),
+             ('SAS', 'sas'),
+             ('Sass (Sass)', 'sass'),
+             ('Sass (Scss)', 'scss'),
+             ('Scala', 'scala'),
+             ('SQL', 'sql'),
+             ('Stylus', 'stylus'),
+             ('Swift', 'swift'),
+             ('Twig', 'twig'),
+             ('TypeScript', 'typescript, ts'),
+             ('Velocity', 'velocity'),
+             ('vim', 'vim'),
+             ('Visual Basic', 'visual-basic, vb'),
+             ('Wiki markup', 'wiki'),
+             ('YAML', 'yaml, yml'),
+             ('Zig', 'zig'),
 
-	def __str__(self):
-		return self.description
+             ]
+    lang = models.CharField(max_length=18, choices=langs, default='text')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    tags = models.CharField(max_length=100, blank=True)
+    posted_on = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-
-	def get_absolute_url(self):
-		return reverse('post-detail', kwargs={'pk': self.pk})
+    
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})
+	
  
 # Comment model links a comment with the post and the user. 
 class Comments(models.Model):
-	post = models.ForeignKey(Post, related_name='details', on_delete=models.CASCADE)
-	username = models.ForeignKey(User, related_name='details', on_delete=models.CASCADE)
-	comment = models.CharField(max_length=255)
-	comment_date = models.DateTimeField(default=timezone.now)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    comment = models.CharField(max_length=255)
+    commented_on = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 # It stores the like info. It has the user who created the like and the post on which like was made.
 class Like(models.Model):
-	user = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE)
-	post = models.ForeignKey(Post, related_name='likes', on_delete=models.CASCADE)	
+	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)	

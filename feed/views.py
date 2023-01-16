@@ -14,10 +14,10 @@ import json
 from snip_app.models import Snip
 
 class PostListView(ListView):
-	model = Snip
+	model = Post
 	template_name = 'feed/home.html'
 	context_object_name = 'posts'
-	ordering = ['-created_at']
+	ordering = ['-posted_on']
 	paginate_by = 10
 	def get_context_data(self, **kwargs):
 		context = super(PostListView, self).get_context_data(**kwargs)
@@ -68,7 +68,7 @@ def create_post(request):
 		form = NewPostForm(request.POST, request.FILES)
 		if form.is_valid():
 			data = form.save(commit=False)
-			data.user_name = user
+			data.author = user
 			data.save()
 			messages.success(request, f'Posted Successfully')
 			return redirect('home')

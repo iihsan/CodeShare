@@ -19,9 +19,9 @@
       {% endif %} {% for post in posts %}
       <div class="card card-signin my-5">
         <div class="card-body">
-          <a href="{{ post.user_name.profile.get_absolute_url }}"
+          <a href="{{ post.author.profile.get_absolute_url }}"
             ><img
-              src="{{ post.user_name.profile.image.url }}"
+              src="{{ post.author.profile.image.url }}"
               class="rounded-circle"
               width="30"
               height="30"
@@ -29,18 +29,17 @@
           /></a>
           <a
             class="text-dark"
-            href="{{ post.user_name.profile.get_absolute_url }}"
-            ><b>{{ post.user_name }}</b></a
+            href="{{ post.author.profile.get_absolute_url }}"
+            ><b>{{ post.author }}</b></a
           >
           <br /><small class="text-muted"
-            >Posted on {{ post.date_posted }}</small
+            >Posted on {{ post.posted_on }}</small
           >
-          <br /><br />
+          <br><br/>
+          <b>{{ post.title }}</b>
           <p class="card-text text-dark">{{ post.description }}</p>
-        </div>
-        <a href="{% url 'post-detail' post.id %}"
-          ><img class="card-img-top" src="{{ post.pic.url }}" alt=""
-        /></a>
+          <br />
+          <pre><code class="language-{{post.lang}} line-numbers">{{post.code}}</code></pre>
         {% if post.tags %}
         <br />
         <p class="text-danger ml-3">
