@@ -45,8 +45,8 @@ def index(request):
     if request.method=="POST":
         try:
             searchform=searchForm(request.POST)
-            x = 'incr'
-            return HttpResponseRedirect("/search/"+x) 
+            x = request.POST.get('search', '')
+            return HttpResponseRedirect("/search_posts/?p="+x) 
         except ValueError:
             pass
 
