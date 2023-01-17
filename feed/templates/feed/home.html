@@ -7,76 +7,121 @@
   <input class="form-control mr-sm-2" type="search" name="p" placeholder="Search posts by tags" aria-label="Search">
   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
+
 {% endblock searchform %} {% block content %}
 <div class="container">
-  <div class="row">
-    <div class="col-md-8">
-      {% for post in posts %}
-      <div class="card card-signin my-5">
-        <div class="card-body">
-          <a href="{{ post.author.profile.get_absolute_url }}"
-            ><img
-              src="{{ post.author.profile.image.url }}"
-              class="rounded-circle"
-              width="30"
-              height="30"
-              alt=""
-          /></a>
-          <a
-            class="text-dark"
-            href="{{ post.author.profile.get_absolute_url }}"
-            ><b>{{ post.author }}</b></a
-          >
-          <br /><small class="text-muted"
-            >Posted on {{ post.posted_on }}</small
-          >
-          <br><br/>
-          <p style="font-size: 20px; 
-          color: rgb(4, 169, 235); 
-          text-align: left; 
-          margin: 0 0 10px 0; 
-          text-shadow: 0px 1px 0px #f2f2f2;">{{ post.title }}</p>
-          <p class="card-text text-dark">{{ post.description }}</p>
-          <br />
-          <pre><code class="language-{{post.lang}} line-numbers">{{post.code}}</code></pre>
-        </div>
-        <!-- <a href="{% url 'post-detail' post.id %}"
-          ><img class="card-img-top" src="{{ post.pic.url }}" alt=""
-        /></a> -->
-        {% if post.tags %}
-        <p class="text-danger ml-3">
-          <b>Tags: <i>{{ post.tags }}</i></b>
-        </p>
-        {% endif %}
-        <div class="card-footer">
-          <button class="btn btn-white mr-3 like" id="{{ post.id }}">
-            {% if post in liked_post %}
-            <a
-              href="{% url 'post-like' %}"
-              style="color: red"
-              id="likebtn{{ post.id }}"
-            >
-            👎</a
-            >
-            | {{post.likes.count}} {% else %}
-            <a
-              href="{% url 'post-like' %}"
-              style="color: green"
-              id="likebtn{{ post.id }}"
-            >
-            👍❤️</a
-            >
-            | {{post.likes.count}} {% endif %}
-          </button>
-          <a class="btn btn-outline-info" href="{% url 'post-detail' post.id %}"
-            >Comments | {{ post.details.count }}</a
-          >
+  <div class="block">
+    <div class="columns">
+      <div class="column is-two-quarter main">
+        <div class="row">
+          <div>
+          {% for post in posts %}
+          <div class="card card-signin my-5">
+            <div class="card-body">
+              <a href="{{ post.author.profile.get_absolute_url }}"
+                ><img
+                  src="{{ post.author.profile.image.url }}"
+                  class="rounded-circle"
+                  width="30"
+                  height="30"
+                  alt=""
+              /></a>
+              <a
+                class="text-dark"
+                href="{{ post.author.profile.get_absolute_url }}"
+                ><b>{{ post.author }}</b>
+              </a>
+              <br /><small class="text-muted"
+                >Posted on {{ post.posted_on }}</small
+              >
+              <br><br/>
+              <p style="font-size: 20px; 
+                color: rgb(4, 169, 235); 
+                text-align: left; 
+                margin: 0 0 10px 0; 
+                text-shadow: 0px 1px 0px #f2f2f2;">
+                {{ post.title }}
+              </p>
+              <p class="card-text text-dark">{{ post.description }}</p>
+              <br />
+              <pre><code class="language-{{post.lang}} line-numbers">{{post.code}}</code></pre>
+            </div>
+            <!-- <a href="{% url 'post-detail' post.id %}"
+              ><img class="card-img-top" src="{{ post.pic.url }}" alt=""
+            /></a> -->
+            {% if post.tags %}
+            <p class="text-danger ml-3">
+              <b>Tags: <i>{{ post.tags }}</i></b>
+            </p>
+            {% endif %}
+            <div class="card-footer">
+              <!-- <button class="btn btn-white mr-3 like" id="{{ post.id }}"> -->
+                {% if post in liked_post %}
+                <a
+                  href="{% url 'post-like' %}"
+                  style="color: red"
+                  id="likebtn{{ post.id }}"
+                >
+                👎</a
+                >
+                | {{post.likes.count}} {% else %}
+                <a class="btn btn-outline-warning" 
+                  href="{% url 'post-like' %}"
+                  id="likebtn{{ post.id }}"
+                  style="margin-right: 10px;"
+                >Like 👍 | 2{{ post.details.count }}</a
+              >
+                {{post.likes.count}} {% endif %}
+              <!-- </button> -->
+              <a class="btn btn-outline-danger" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Save ❤️ | 2 {{ post.details.count }}</a
+              >
+              <a class="btn btn-outline-secondary" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Share 🔗 | 5 {{ post.details.count }}</a
+              >
+              <a class="btn btn-outline-info" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Comments 💬 | 7{{ post.details.count }}</a
+              >
+              <a class="btn btn-outline-dark" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Views 👀 | 56 {{ post.details.count }}</a
+              >
+              <a class="btn btn-outline-primary" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Delete 🗑️ | 56 {{ post.details.count }}</a
+              >
+            </div>
+          </div>
+          {% endfor %}
+          </div>
         </div>
       </div>
-      {% endfor %}
+
+      <div class="column is-one-quarter sidebar" style="margin-top: 50px; margin-left: 40px;">
+        <article class="panel is-info">
+          <p class="panel-heading">
+            <a href="{% url 'home' %}" style="text-decoration:none; color:white">All Snippets:</a>
+            {% if search %}
+            <a href="{% url 'home' %}" style="text-decoration:none">
+              <button class="button is-warning is-small is-rounded is-right" style="margin-left: 20px;">
+                Clear filter
+              </button>
+            </a>
+          {% endif %}
+          </p>
+
+          {% for i in all_posts %}
+          <a class="panel-block" href="{% url 'search_post_by_id'%}?id={{i.id}}">
+            <span class="panel-icon is-left">
+              <i class="fas fa-laptop-code">&nbsp; &nbsp;</i>
+            </span>{{i.title}}
+          </a>
+          {% endfor %}
+
+        </article>
+      </div>
     </div>
   </div>
 </div>
+
 
 {% if is_paginated %} 
 	{% if page_obj.has_previous %}

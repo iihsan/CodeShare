@@ -21,6 +21,7 @@ class PostListView(ListView):
 	paginate_by = 10
 	def get_context_data(self, **kwargs):
 		context = super(PostListView, self).get_context_data(**kwargs)
+		context['all_posts'] = Post.objects.all()
 		if self.request.user.is_authenticated:
 			liked = [i for i in Post.objects.all() if Like.objects.filter(user = self.request.user, post=i)]
 			context['liked_post'] = liked
@@ -101,14 +102,31 @@ def post_delete(request, pk):
 
 @login_required
 def search_posts(request):
-	query = request.GET.get('p')
-	object_list = Post.objects.filter(tags__icontains=query)
+ query = request.GET.get('p')
+ all_posts = Post.objects.all()
+ object_list = all_posts.filter(tags__icontains=query)
+ liked = [i for i in object_list if Like.objects.filter(user = request.user, post=i)]
+ context ={
+	'posts': object_list,
+	'all_posts': all_posts,
+	'liked_post': liked,
+ 	'search': True
+ }
+ return render(request, "feed/home.html", context)
+
+@login_required
+def search_post_by_id(request):
+	id = request.GET.get('id')
+	all_posts = Post.objects.all()
+	object_list = all_posts.filter(id=id)
 	liked = [i for i in object_list if Like.objects.filter(user = request.user, post=i)]
 	context ={
 		'posts': object_list,
-		'liked_post': liked
+		'all_posts': all_posts,
+		'liked_post': liked,
+		'search': True
 	}
-	return render(request, "feed/search_posts.html", context)
+	return render(request, "feed/home.html", context)
 
 @login_required
 def like(request):

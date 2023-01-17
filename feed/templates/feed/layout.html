@@ -31,13 +31,13 @@
   <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     {% block cssfiles %}{% endblock cssfiles %}
-    <title>CodeShare</title>
+    <title>CodeShare by iihsan</title>
   </head>
 
   <body>
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"> -->
     <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-      <a class="navbar-brand ml-4 mr-4" href="#"><b>Code Share❤️</b></a>
+      <a class="navbar-brand ml-4 mr-4" href="{% url 'home' %}"><b>Code Share❤️</b></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -52,10 +52,10 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+          {% if user.is_authenticated %}
           <a class="nav-item nav-link" href="{% url 'users_list' %}"
             >Add New Friends</a
           >
-          {% if user.is_authenticated %}
           <a class="nav-item nav-link" href="{% url 'friend_list' %}"
             >Friends</a
           >
@@ -66,6 +66,14 @@
           <a class="nav-item nav-link" href="{% url 'snip_index' %}"
             >Create Snippet</a
           >
+          {% endif %}
+          {% block searchform %}{% endblock searchform %}
+        </div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            {% if user.is_authenticated %}
           <a
             class="nav-item nav-link btn btn-danger ml-4 text-light"
             href="{% url 'logout' %}"
@@ -82,7 +90,15 @@
             href="{% url 'register' %} "
             >Register</a
           >
-          {% endif %} {% block searchform %}{% endblock searchform %}
+          {% endif %}
+            <!-- {% if user.is_authenticated %}
+            <a class="button is-warning is-rounded" href="javascript:{document.getElementById('logout').submit()}" style="font-weight: 700;">Logout</a>
+            <form id="logout" method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <input type="hidden" />
+            </form>
+            {% endif %} -->
+          </div>
         </div>
       </div>
     </nav>
