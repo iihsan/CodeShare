@@ -98,11 +98,18 @@
       <div class="column is-one-quarter sidebar" style="margin-top: 50px; margin-left: 40px;">
         <article class="panel is-info">
           <p class="panel-heading">
-            All Snippets:
+            <a href="{% url 'home' %}" style="text-decoration:none; color:white">All Snippets:</a>
+            {% if search %}
+            <a href="{% url 'home' %}" style="text-decoration:none">
+              <button class="button is-warning is-small is-rounded is-right" style="margin-left: 20px;">
+                Clear filter
+              </button>
+            </a>
+          {% endif %}
           </p>
 
-          {% for i in posts %}
-          <a class="panel-block" href="{% url 'snip_index'%}p/{{i.link_code}}">
+          {% for i in all_posts %}
+          <a class="panel-block" href="{% url 'search_post_by_id'%}?id={{i.id}}">
             <span class="panel-icon is-left">
               <i class="fas fa-laptop-code">&nbsp; &nbsp;</i>
             </span>{{i.title}}
