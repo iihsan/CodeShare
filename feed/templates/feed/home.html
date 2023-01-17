@@ -55,7 +55,7 @@
             </p>
             {% endif %}
             <div class="card-footer">
-              <button class="btn btn-white mr-3 like" id="{{ post.id }}">
+              <!-- <button class="btn btn-white mr-3 like" id="{{ post.id }}"> -->
                 {% if post in liked_post %}
                 <a
                   href="{% url 'post-like' %}"
@@ -65,17 +65,28 @@
                 👎</a
                 >
                 | {{post.likes.count}} {% else %}
-                <a
+                <a class="btn btn-outline-warning" 
                   href="{% url 'post-like' %}"
-                  style="color: green"
                   id="likebtn{{ post.id }}"
-                >
-                👍❤️</a
-                >
-                | {{post.likes.count}} {% endif %}
-              </button>
-              <a class="btn btn-outline-info" href="{% url 'post-detail' post.id %}"
-                >Comments | {{ post.details.count }}</a
+                  style="margin-right: 10px;"
+                >Like 👍 | 2{{ post.details.count }}</a
+              >
+                {{post.likes.count}} {% endif %}
+              <!-- </button> -->
+              <a class="btn btn-outline-danger" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Save ❤️ | 2 {{ post.details.count }}</a
+              >
+              <a class="btn btn-outline-secondary" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Share 🔗 | 5 {{ post.details.count }}</a
+              >
+              <a class="btn btn-outline-info" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Comments 💬 | 7{{ post.details.count }}</a
+              >
+              <a class="btn btn-outline-dark" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Views 👀 | 56 {{ post.details.count }}</a
+              >
+              <a class="btn btn-outline-primary" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Delete 🗑️ | 56 {{ post.details.count }}</a
               >
             </div>
           </div>
