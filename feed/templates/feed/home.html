@@ -1,13 +1,11 @@
 {% extends "feed/layout.html" %} {% load static %} {% block searchform %}
-<form
+<form 
   class="form-inline my-2 my-lg-0 ml-5"
   action="{% url 'search_posts' %}"
   method="get"
 >
-  <input name="p" type="text" placeholder="Search posts.." />
-  <button class="btn btn-success my-2 my-sm-0 ml-4" type="submit">
-    Search
-  </button>
+  <input class="form-control mr-sm-2" type="search" name="p" placeholder="Search posts by tags" aria-label="Search">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
 {% endblock searchform %} {% block content %}
 <div class="container">
