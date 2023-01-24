@@ -1,5 +1,5 @@
 # CodeShare
-A social media photo sharing website built on [Django Framework](https://djangoproject.com/).
+A programming code snippet sharing website built on [Django Framework](https://djangoproject.com/).
 
 The features available to users :-
 1) Post images.  A short description and tags can be included if desired by user.
