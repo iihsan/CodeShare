@@ -3,7 +3,7 @@ A programming code snippet sharing website built on [Django Framework](https://d
 
 The features available to users :-
 1) Post snippets.  A short description and tags can be included if desired by user.
-2) can check everyone's post and also like and comment on the photos.
+2) Can see everyone's post and also like and comment on the snippets.
 3) Users can edit or delete their photos too.
 4) Users can search for posts by tags and for other users by their username.
 5) Without authentication, users can view the posts but cannot like or comment.
