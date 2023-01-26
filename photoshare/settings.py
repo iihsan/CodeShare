@@ -24,9 +24,6 @@ DEBUG = True# (os.environ.get('DEBUG_VALUE') == 'True')
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'https://CodeShare.herokuapp.com/',
-    'https://CodeShare.me',
-    'http://CodeShare.me'
 ]
 
 
