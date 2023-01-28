@@ -22,9 +22,9 @@ class PostListView(ListView):
 	paginate_by = 10
 	def get_context_data(self, **kwargs):
 		context = super(PostListView, self).get_context_data(**kwargs)
-		context['all_posts'] = Post.objects.all()
+		context['all_posts'] = Post.objects.all().order_by('-posted_on')
 		if self.request.user.is_authenticated:
-			liked = [i for i in Post.objects.all() if Like.objects.filter(user = self.request.user, post=i)]
+			liked = [i for i in context['all_posts'] if Like.objects.filter(user = self.request.user, post=i)]
 			context['liked_post'] = liked
 		return context
 
@@ -63,7 +63,7 @@ def post_detail(request, pk):
 			return redirect('post-detail', pk=pk)
 	else:
 		form = NewCommentForm()
-	comments = Comments.objects.filter(post=post)
+	comments = Comments.objects.filter(post=post).order_by('-commented_on')
 	return render(request, 'feed/post_detail.html', {'post':post, 'is_liked':is_liked, 
                                                   'form':form, 'comments':comments})
 
@@ -108,7 +108,7 @@ def post_delete(request, pk):
 @login_required
 def search_posts(request):
  query = request.GET.get('p')
- all_posts = Post.objects.all()
+ all_posts = Post.objects.all().order_by('-posted_on')
  object_list = all_posts.filter(tags__icontains=query)
  liked = [i for i in object_list if Like.objects.filter(user = request.user, post=i)]
  context ={
@@ -122,7 +122,7 @@ def search_posts(request):
 @login_required
 def search_post_by_id(request):
 	id = request.GET.get('id')
-	all_posts = Post.objects.all()
+	all_posts = Post.objects.all().order_by('-posted_on')
 	object_list = all_posts.filter(id=id)
 	liked = [i for i in object_list if Like.objects.filter(user = request.user, post=i)]
 	context ={
