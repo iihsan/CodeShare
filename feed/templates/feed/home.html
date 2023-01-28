@@ -173,11 +173,15 @@
 {% block jsfiles %}
 <script>
   // When the user clicks on <div>, open the popup
+  function savedFunction(id) {
+    var popup = document.getElementById("savedPopup-"+id);
+    popup.classList.toggle("show");
     
-    function savedFunction(id) {
+    setTimeout(function(){
       var popup = document.getElementById("savedPopup-"+id);
-      popup.classList.toggle("show");
-    }
+    popup.classList.toggle("show");
+   }, 2000);
+  }
       
 
 function sharedFunction(id) {
