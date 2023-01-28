@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 import json
 from snip_app.models import Snip
+from users.models import Profile
 
 class PostListView(ListView):
 	model = Post
@@ -51,16 +52,20 @@ def post_detail(request, pk):
 	user = request.user
 	is_liked =  Like.objects.filter(user=user, post=post)
 	if request.method == 'POST':
+		comment = request.POST.get('comment', 'Nice Share!')
 		form = NewCommentForm(request.POST)
 		if form.is_valid():
 			data = form.save(commit=False)
 			data.post = post
-			data.username = user
+			data.user = user
+			data.profile = Profile.objects.filter(user=user).first()
 			data.save()
 			return redirect('post-detail', pk=pk)
 	else:
 		form = NewCommentForm()
-	return render(request, 'feed/post_detail.html', {'post':post, 'is_liked':is_liked, 'form':form})
+	comments = Comments.objects.filter(post=post)
+	return render(request, 'feed/post_detail.html', {'post':post, 'is_liked':is_liked, 
+                                                  'form':form, 'comments':comments})
 
 @login_required
 def create_post(request):
