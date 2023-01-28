@@ -75,7 +75,7 @@
               <!-- </button> -->
               <div class="popup" onclick="savedFunction('{{post.id}}')">
               <a class="btn btn-outline-danger" style="margin-right: 10px;"
-                >Save ❤️ | 2 {{ post.details.count }}
+                >Save ❤️ | <span id="saved-count"></span> {{ post.details.count }}
                 <span class="popuptext" id="savedPopup-{{ post.id }}">Saved ❤️</span>
                 </a
               ></div>
@@ -172,10 +172,20 @@
 
 {% block jsfiles %}
 <script>
+  // Select total count
+  const savedCount = document.getElementById("saved-count");
+  // Variable to track count
+  var savedCountNum = 0;
+  // Display initial count value
+  savedCount.innerHTML = count;
+
   // When the user clicks on <div>, open the popup
   function savedFunction(id) {
     var popup = document.getElementById("savedPopup-"+id);
     popup.classList.toggle("show");
+
+    savedCountNum++;
+    savedCount.innerHTML = savedCountNum;
     
     setTimeout(function(){
       var popup = document.getElementById("savedPopup-"+id);
