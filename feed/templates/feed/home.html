@@ -73,20 +73,33 @@
               >
                 {{post.likes.count}} {% endif %}
               <!-- </button> -->
-              <a class="btn btn-outline-danger" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
-                >Save ❤️ | 2 {{ post.details.count }}</a
+              <div class="popup" onclick="savedFunction('{{post.id}}')">
+              <a class="btn btn-outline-danger" style="margin-right: 10px;"
+                >Save ❤️ | <span id="saved-count"></span> {{ post.details.count }}
+                <span class="popuptext" id="savedPopup-{{ post.id }}">Saved ❤️</span>
+                </a
+              ></div>
+              <!-- <div class="popup" onclick="myFunction('{{post.id}}')"> -->
+                <a id="myBtn-{{ post.id }}" onclick="sharedFunction('{{post.id}}')" class="btn btn-outline-dark" style="margin-right: 10px;"
+                >Share 🔗 | 51 {{ post.details.count }} 
+                </a
               >
-              <a class="btn btn-outline-secondary" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
-                >Share 🔗 | 5 {{ post.details.count }}</a
-              >
+            <!-- </div> -->
+              <!-- The Modal -->
+              <div id="myModal-{{ post.id }}" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <p>Share this URL: <a href="http://127.0.0.1:8000/post/{{ post.id }}/">http://127.0.0.1:8000/post/{{ post.id }}/</a></p>
+                </div>
+
+              </div>
               <a class="btn btn-outline-info" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
                 >Comments 💬 | 7{{ post.details.count }}</a
               >
               <a class="btn btn-outline-dark" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
                 >Views 👀 | 56 {{ post.details.count }}</a
-              >
-              <a class="btn btn-outline-primary" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
-                >Delete 🗑️ | 56 {{ post.details.count }}</a
               >
             </div>
           </div>
@@ -159,6 +172,54 @@
 
 {% block jsfiles %}
 <script>
+  // Select total count
+  const savedCount = document.getElementById("saved-count");
+  // Variable to track count
+  var savedCountNum = 0;
+  // Display initial count value
+  savedCount.innerHTML = count;
+
+  // When the user clicks on <div>, open the popup
+  function savedFunction(id) {
+    var popup = document.getElementById("savedPopup-"+id);
+    popup.classList.toggle("show");
+
+    savedCountNum++;
+    savedCount.innerHTML = savedCountNum;
+    
+    setTimeout(function(){
+      var popup = document.getElementById("savedPopup-"+id);
+    popup.classList.toggle("show");
+   }, 2000);
+  }
+      
+
+function sharedFunction(id) {
+  // Get the modal
+  var modal = document.getElementById("myModal-"+id);
+  
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn-"+id);
+  
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  
+  // When the user clicks the button, open the modal 
+  modal.style.display = "block";
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+}
+
   $(".like").click(function (e) {
     var id = this.id;
     var href = $(".like").find("a").attr("href");
