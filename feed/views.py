@@ -17,14 +17,16 @@ from users.models import Profile
 class PostListView(ListView):
 	model = Post
 	template_name = 'feed/home.html'
-	context_object_name = 'posts'
+	context_object_name = 'all_posts'
 	ordering = ['-posted_on']
 	paginate_by = 10
 	def get_context_data(self, **kwargs):
 		context = super(PostListView, self).get_context_data(**kwargs)
-		context['all_posts'] = Post.objects.all().order_by('-posted_on')
+		posts = Post.objects.all().order_by('-posted_on')
+		likes = [Like.objects.filter(post=i).count() for i in posts]
+		context['posts'] = zip(posts, likes)
 		if self.request.user.is_authenticated:
-			liked = [i for i in context['all_posts'] if Like.objects.filter(user = self.request.user, post=i)]
+			liked = [i for i in posts if Like.objects.filter(user = self.request.user, post=i)]
 			context['liked_post'] = liked
 		return context
 
@@ -108,12 +110,13 @@ def post_delete(request, pk):
 @login_required
 def search_posts(request):
  query = request.GET.get('p')
- all_posts = Post.objects.all().order_by('-posted_on')
- object_list = all_posts.filter(tags__icontains=query)
+ posts = Post.objects.all().order_by('-posted_on')
+ object_list = posts.filter(tags__icontains=query)
+ likes = [Like.objects.filter(post=i).count() for i in object_list]
  liked = [i for i in object_list if Like.objects.filter(user = request.user, post=i)]
  context ={
-	'posts': object_list,
-	'all_posts': all_posts,
+	'all_posts': posts,
+	'posts':zip(object_list, likes),
 	'liked_post': liked,
  	'search': True
  }
@@ -124,10 +127,11 @@ def search_post_by_id(request):
 	id = request.GET.get('id')
 	all_posts = Post.objects.all().order_by('-posted_on')
 	object_list = all_posts.filter(id=id)
+	likes = [Like.objects.filter(post=i).count() for i in object_list]
 	liked = [i for i in object_list if Like.objects.filter(user = request.user, post=i)]
 	context ={
-		'posts': object_list,
 		'all_posts': all_posts,
+		'posts':zip(object_list, likes),
 		'liked_post': liked,
 		'search': True
 	}
@@ -135,7 +139,7 @@ def search_post_by_id(request):
 
 @login_required
 def like(request):
-	post_id = request.GET.get("likeId", "")
+	post_id = int(request.GET.get("id", "1"))
 	user = request.user
 	post = Post.objects.get(pk=post_id)
 	liked= False
@@ -148,6 +152,7 @@ def like(request):
 	resp = {
         'liked':liked
     }
+	return redirect('home')
 	response = json.dumps(resp)
 	return HttpResponse(response, content_type = "application/json")
 
