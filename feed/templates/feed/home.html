@@ -15,7 +15,7 @@
       <div class="column is-two-quarter main">
         <div class="row">
           <div>
-          {% for post, likes in posts%}
+          {% for post, likes, comments in posts%}
           <div class="card card-signin my-5">
             <div class="card-body">
               <a href="{{ post.author.profile.get_absolute_url }}"
@@ -64,13 +64,13 @@
               <!-- </button> -->
               <div class="popup" onclick="savedFunction('{{post.id}}')">
               <a class="btn btn-outline-danger" style="margin-right: 10px;"
-                >Save ❤️
+                >Save ❤️| {{ random_numbers | random }}
                 <span class="popuptext" id="savedPopup-{{ post.id }}">Saved ❤️</span>
                 </a
               ></div>
               <!-- <div class="popup" onclick="myFunction('{{post.id}}')"> -->
                 <a id="myBtn-{{ post.id }}" onclick="sharedFunction('{{post.id}}')" class="btn btn-outline-dark" style="margin-right: 10px;"
-                >Share 🔗 | 51 {{ post.details.count }} 
+                >Share 🔗| {{ random_numbers | random }}
                 </a
               >
             <!-- </div> -->
@@ -85,10 +85,11 @@
 
               </div>
               <a class="btn btn-outline-info" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
-                >Comments 💬 | 7{{ post.details.count }}</a
+                >Comments 💬 | {{ comments }}</a
               >
-              <a class="btn btn-outline-dark" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
-                >Views 👀 | 56 {{ post.details.count }}</a
+              <p class="btn btn-outline-dark" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Views 👀 | {{ random_numbers | random }}
+                </a
               >
             </div>
           </div>

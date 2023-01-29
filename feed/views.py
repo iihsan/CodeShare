@@ -24,7 +24,9 @@ class PostListView(ListView):
 		context = super(PostListView, self).get_context_data(**kwargs)
 		posts = Post.objects.all().order_by('-posted_on')
 		likes = [Like.objects.filter(post=i).count() for i in posts]
-		context['posts'] = zip(posts, likes)
+		comments = [Comments.objects.filter(post=i).count() for i in posts]
+		context['posts'] = zip(posts, likes, comments)
+		context['random_numbers'] = range(100)
 		if self.request.user.is_authenticated:
 			liked = [i for i in posts if Like.objects.filter(user = self.request.user, post=i)]
 			context['liked_post'] = liked
@@ -113,11 +115,13 @@ def search_posts(request):
  posts = Post.objects.all().order_by('-posted_on')
  object_list = posts.filter(tags__icontains=query)
  likes = [Like.objects.filter(post=i).count() for i in object_list]
+ comments = [Comments.objects.filter(post=i).count() for i in object_list]
  liked = [i for i in object_list if Like.objects.filter(user = request.user, post=i)]
  context ={
 	'all_posts': posts,
-	'posts':zip(object_list, likes),
+	'posts':zip(object_list, likes, comments),
 	'liked_post': liked,
+	'random_numbers': range(100),
  	'search': True
  }
  return render(request, "feed/home.html", context)
@@ -128,11 +132,13 @@ def search_post_by_id(request):
 	all_posts = Post.objects.all().order_by('-posted_on')
 	object_list = all_posts.filter(id=id)
 	likes = [Like.objects.filter(post=i).count() for i in object_list]
+	comments = [Comments.objects.filter(post=i).count() for i in object_list]
 	liked = [i for i in object_list if Like.objects.filter(user = request.user, post=i)]
 	context ={
 		'all_posts': all_posts,
-		'posts':zip(object_list, likes),
+		'posts':zip(object_list, likes, comments),
 		'liked_post': liked,
+		'random_numbers': range(100),
 		'search': True
 	}
 	return render(request, "feed/home.html", context)
