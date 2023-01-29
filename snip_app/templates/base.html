@@ -7,6 +7,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SnipBoard</title>
+  <link
+  rel="icon"
+  type="image/png"
+  href="https://dl.dropboxusercontent.com/s/o093y16u4d3kojv/code.png?dl=0"
+/>
+<!-- Bootstrap CSS -->
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://dl.dropboxusercontent.com/s/ecyb1drs5j1jyjf/styles.css?dl=0"
+/>
+<link href="{% static 'css/prism.css' %}" rel="stylesheet" />
+<link href="{% static 'css/style.css' %}" rel="stylesheet" />
   <link rel="shortcut icon"
     href="https://icons.iconarchive.com/icons/thehoth/seo/256/seo-web-code-icon.png"
     type="image/x-icon">
@@ -18,50 +39,78 @@
 
 <body>
 
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation" style="margin-bottom: 50px !important ;">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="#">
-        <h1 class="is-size-3"> <strong>SnipBoard</strong></h1>
-      </a>
-
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-        data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-
-    <div class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item is-size-5" href="{% url 'home' %}">
-          Home
-        </a>
-
-        <a class="navbar-item button is-primary is-rounded" href="{% url 'snip_index' %}" style="margin: auto;">
-          <strong>+ New Snip</strong>
-        </a>
-
+  <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+    <a class="navbar-brand ml-4 mr-4" href="{% url 'home' %}"><b>Code Share❤️</b></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+        <a class="nav-item nav-link" href="{% url 'users_list' %}"
+          >Add New Friends</a
+        >
+        <a class="nav-item nav-link" href="{% url 'friend_list' %}"
+          >Friends</a
+        >
+        <a class="nav-item nav-link" href="{% url 'my_profile' %}">Profile</a>
+        <a class="nav-item nav-link" href="{% url 'snip_index' %}"
+          >Create Snippet</a
+        >
+        {% endif %}
+        <form 
+  class="form-inline my-2 my-lg-0 ml-5"
+  action="{% url 'search_posts' %}"
+  method="get"
+>
+  <input class="form-control mr-sm-2" type="search" name="p" placeholder="Search posts by tags" aria-label="Search">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
       </div>
-      
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            {% if user.is_authenticated %}
-            <a class="button is-warning is-rounded" href="javascript:{document.getElementById('logout').submit()}" style="font-weight: 700;">Logout</a>
-            <form id="logout" method="POST" action="{% url 'logout' %}">
-              {% csrf_token %}
-              <input type="hidden" />
-            </form>
-
-            {% endif %}
-          </div>
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          {% if user.is_authenticated %}
+        <a
+          class="nav-item nav-link btn btn-danger ml-4 text-light"
+          href="{% url 'logout' %}"
+          >Logout</a
+        >
+        {% else %}
+        <a
+          class="nav-item nav-link btn btn-success ml-4 text-light"
+          href="{% url 'login' %}"
+          >Login</a
+        >
+        <a
+          class="nav-item nav-link btn btn-info ml-3 text-light"
+          href="{% url 'register' %} "
+          >Register</a
+        >
+        {% endif %}
+          <!-- {% if user.is_authenticated %}
+          <a class="button is-warning is-rounded" href="javascript:{document.getElementById('logout').submit()}" style="font-weight: 700;">Logout</a>
+          <form id="logout" method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="hidden" />
+          </form>
+          {% endif %} -->
         </div>
       </div>
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container" style="margin-top: 50px;">
     <div class="block">
 
 
@@ -80,7 +129,7 @@
         <div class="column is-one-quarter sidebar" style="margin-left: 40px ;">
           <article class="panel is-info">
             <p class="panel-heading">
-              All Snippets:
+              All Code Snippets
             </p>
             <!-- <p class="panel-tabs">
               <a>All</a>
@@ -110,7 +159,7 @@
 
             {% for i in snips %}
 
-            <a class="panel-block" href="{% url 'snip_index'%}p/{{i.link_code}}">
+            <a class="panel-block" href="{% url 'search_post_by_id'%}?id={{i.id}}">
               <span class="panel-icon is-left">
                 <i class="fas fa-laptop-code">&nbsp; &nbsp;</i>
               </span>{{i.title}}
