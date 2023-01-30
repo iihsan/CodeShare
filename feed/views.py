@@ -35,8 +35,8 @@ class PostListView(ListView):
 		if self.request.user.is_authenticated:
 			liked = [i for i in posts if Like.objects.filter(user = self.request.user, post=i)]
 			context['liked_post'] = liked
-		else:
-			self.request.user = authenticate(username='ihsan', password='Demo1234')
+		# else:
+		# 	self.request.user = authenticate(username='ihsan', password='Demo1234')
 		return context
 
 class UserPostListView(LoginRequiredMixin, ListView):
