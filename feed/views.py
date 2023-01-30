@@ -13,13 +13,16 @@ from django.views.decorators.http import require_POST
 import json
 from snip_app.models import Snip
 from users.models import Profile
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class PostListView(ListView):
+
+class PostListView(LoginRequiredMixin, ListView):
 	model = Post
 	template_name = 'feed/home.html'
 	context_object_name = 'all_posts'
 	ordering = ['-posted_on']
 	paginate_by = 10
+	
 	def get_context_data(self, **kwargs):
 		context = super(PostListView, self).get_context_data(**kwargs)
 		posts = Post.objects.all().order_by('-posted_on')
