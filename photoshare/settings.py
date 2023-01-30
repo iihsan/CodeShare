@@ -21,10 +21,7 @@ SECRET_KEY = '2&g68z@0fnz2+5=q5wb9vcdtv$ribu9b0_g*m=o$9zi9=h%^n4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True# (os.environ.get('DEBUG_VALUE') == 'True')
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-]
+ALLOWED_HOSTS = ['codeshare-dev.ap-south-1.elasticbeanstalk.com', 'code.iihsan.com']
 
 
 # Application definition
