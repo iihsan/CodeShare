@@ -47,6 +47,7 @@ def users_list(request):
     }
     return render(request, "users/users_list.html", context)
 
+@login_required
 def friend_list(request):
 	p = request.user.profile
 	friends = p.friends.all()
@@ -93,6 +94,7 @@ def delete_friend_request(request, id):
 	frequest.delete()
 	return HttpResponseRedirect('/users/{}'.format(request.user.profile.slug))
 
+@login_required
 def delete_friend(request, id):
 	user_profile = request.user.profile
 	friend_profile = get_object_or_404(Profile, id=id)

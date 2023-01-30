@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, HttpResponseRedirect, HttpRespons
 from .models import Snip
 from feed.models import Post
 from .forms import snipForm, searchForm
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required
 def show_snip(request,link_c):
     snips=Snip.objects.order_by('-updated_at')[:10]
     snip=Snip.objects.get(link_code=link_c)
@@ -30,6 +31,7 @@ def all(request):
             pass
     return render(request, 'all.html', {'searchform':searchform,'snips': snips})
 
+@login_required
 def index(request):
     snips=Post.objects.order_by('-updated_at')[:8]
     form=snipForm(initial={'author':request.user})
@@ -64,6 +66,7 @@ def search(request, link_c):
             pass
     return render(request, "all.html", {'searchform':form,'snips':snips})
 
+@login_required
 def delete_snippet(request,snippet_id):
     del_obj=Snip.objects.get(link_code=snippet_id)
     del_obj.delete()

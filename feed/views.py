@@ -14,9 +14,11 @@ import json
 from snip_app.models import Snip
 from users.models import Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import authenticate
 
 
-class PostListView(LoginRequiredMixin, ListView):
+
+class PostListView(ListView):
 	model = Post
 	template_name = 'feed/home.html'
 	context_object_name = 'all_posts'
@@ -33,6 +35,8 @@ class PostListView(LoginRequiredMixin, ListView):
 		if self.request.user.is_authenticated:
 			liked = [i for i in posts if Like.objects.filter(user = self.request.user, post=i)]
 			context['liked_post'] = liked
+		else:
+			self.request.user = authenticate(username='ihsan', password='Demo1234')
 		return context
 
 class UserPostListView(LoginRequiredMixin, ListView):
@@ -164,9 +168,3 @@ def like(request):
 	return redirect('home')
 	response = json.dumps(resp)
 	return HttpResponse(response, content_type = "application/json")
-
-
-
-
-
-
