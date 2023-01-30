@@ -40,18 +40,17 @@
                   class="card-profile-stats d-flex justify-content-center mt-md-5"
                 >
                   <div>
-                    <span class="heading">{{ u.profile.friends.count }}</span>
                     {% if request.user == u %}
                     <span class="description"
-                      ><a href="{% url 'friend_list' %}">Friends</a></span
+                      ><a href="{% url 'friend_list' %}">{{ u.profile.friends.count }} Connections</a></span
                     >
                     {% else %}
-                    <span class="description">Friends</span>
+                    <span class="description">{{ u.profile.friends.count }} Connections</span>
                     {% endif %}
-                    <span class="heading">{{ post_count }}</span>
+                    <br>
                     <span class="description"
                       ><a href="{% url 'user-posts' u.username %}"
-                        >Posts</a
+                        >{{ post_count }} Posts</a
                       ></span
                     >
                   </div>
@@ -71,7 +70,7 @@
                 ><a
                   class="btn btn-primary"
                   href="/users/friend-request/send/{{ u.id }}"
-                  >Add Friend</a
+                  >Add Connection</a
                 ></small
               >
               {% elif button_status == 'friend_request_sent' %}
@@ -102,7 +101,7 @@
                 ><a
                   class="btn btn-danger"
                   href="/users/friend/delete/{{ u.id }}"
-                  >UnFriend</a
+                  >Remove Connection</a
                 ></small
               >
               {% endif %} {% endif %}
@@ -117,10 +116,10 @@
       <div class="col-md-6">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h2>Friend Requests Sent ({{ sent_friend_requests.count }})</h2>
+            <h2>Connection Requests Sent ({{ sent_friend_requests.count }})</h2>
             <hr class="my-2" />
             {% if not sent_friend_requests %}
-            <h5><i>No sent requests!</i></h5>
+            <h5><i>No sent connection requests!</i></h5>
             {% else %} {% for s_request in sent_friend_requests %}
             <a href="{{ s_request.to_user.profile.get_absolute_url }}"
               ><img
@@ -148,10 +147,10 @@
       <div class="col-md-6">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h2>Friend Requests Recieved ({{ rec_friend_requests.count }})</h2>
+            <h2>Connection Requests Recieved ({{ rec_friend_requests.count }})</h2>
             <hr class="my-2" />
             {% if not rec_friend_requests %}
-            <h5><i>No recieved requests!</i></h5>
+            <h5><i>No recieved connection request!</i></h5>
             {% else %} {% for r_request in rec_friend_requests %}
             <a href="{{ r_request.from_user.profile.get_absolute_url }}"
               ><img

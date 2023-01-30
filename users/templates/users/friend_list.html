@@ -32,7 +32,7 @@
             ><a
               class="btn btn-danger float-right"
               href="{% url 'delete_friend' user_p.id %}"
-              >UnFriend</a
+              >Remove Connection</a
             ></small
           >
           <br /><br />
@@ -40,10 +40,10 @@
         </div>
       </div>
       {% else %}
-      <h5>
+      <h5 style="margin: 15%;">
         <i
-          >You have no friends now! Make some new
-          <a href="{% url 'users_list' %}">friends here!</a></i
+          >You have no connection yet! Make some new
+          <a href="{% url 'users_list' %}">connections here!</a></i
         >
       </h5>
       {% endif %}
