@@ -38,7 +38,12 @@
   <body>
     <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"> -->
     <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-      <a class="navbar-brand ml-4 mr-4" href="{% url 'home' %}"><b>Code Share❤️</b></a>
+      <a class="nav-item nav-link" style="font-size: x-large;color:white" href="{% url 'home' %}"
+            ><span style="color: rgb(2, 141, 233); margin-right:5px;margin-left:-5px">{</span>Code Share
+            <span style="color: rgb(2, 141, 233); margin-right:5px;margin-left:-5px"><span style="font-size: large;"></span>}</span>
+        </a>
+          </b></a>
+      <a class="navbar-brand ml-4 mr-4" href="{% url 'home' %}"><b></b></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -52,17 +57,21 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
+          <img src="{% static 'h.png' %}" style="height:20px; width:20px; margin-top: 10px;" />
           <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
           {% if user.is_authenticated %}
+          <img src="{% static 'link.png' %}" style="height:15px; width:15px; margin-top: 13px;" />
           <a class="nav-item nav-link" href="{% url 'users_list' %}"
-            >Add New Friends</a
+            >Add New Connection</a
           >
+          <img src="{% static 'net1.png' %}" style="height:20px; width:20px; margin-top: 10px;" />
           <a class="nav-item nav-link" href="{% url 'friend_list' %}"
-            >Friends</a
+            >Your Network</a
           >
+          <img src="{% static 'p.png' %}" style="height:10px; width:10px; margin-top: 15px;" />
           <a class="nav-item nav-link" href="{% url 'my_profile' %}">Profile</a>
           <a class="nav-item nav-link" href="{% url 'snip_index' %}"
-            >Create Snippet</a
+            ><span style="color: rgb(2, 141, 233); margin-right:5px;margin-left:-5px">{ }</span>Create Snippet</a
           >
           {% endif %}
           {% block searchform %}{% endblock searchform %}
@@ -73,7 +82,7 @@
           <div class="buttons">
             {% if user.is_authenticated %}
           <a
-            class="nav-item nav-link btn btn-danger ml-4 text-light"
+            class="nav-item nav-link btn btn-outline-danger ml-4 text-light"
             href="{% url 'logout' %}"
             >Logout</a
           >
@@ -104,7 +113,7 @@
 
     <footer class="page-footer font-small black">
       <div class="footer-copyright text-center py-3">
-        CodeShare by <a href="iihsan.com">iihsan</a>❤️ © 2023 <br /><small class="text-muted"
+        CodeShare by <a href="https://iihsan.com">iihsan</a>❤️ © 2023 <br /><small class="text-muted"
           >All rights reserved!</small
         >
       </div>

@@ -15,7 +15,7 @@
       <div class="column is-two-quarter main">
         <div class="row">
           <div>
-          {% for post in posts %}
+          {% for post, likes, comments in posts%}
           <div class="card card-signin my-5">
             <div class="card-body">
               <a href="{{ post.author.profile.get_absolute_url }}"
@@ -55,33 +55,22 @@
             </p>
             {% endif %}
             <div class="card-footer">
-              <!-- <button class="btn btn-white mr-3 like" id="{{ post.id }}"> -->
-                {% if post in liked_post %}
-                <a
-                  href="{% url 'post-like' %}"
-                  style="color: red"
-                  id="likebtn{{ post.id }}"
-                >
-                👎</a
-                >
-                | {{post.likes.count}} {% else %}
                 <a class="btn btn-outline-warning" 
-                  href="{% url 'post-like' %}"
+                  href="{% url 'post-like' %}?id={{post.id}}"
                   id="likebtn{{ post.id }}"
-                  style="margin-right: 10px;"
-                >Like 👍 | 2{{ post.details.count }}</a
-              >
-                {{post.likes.count}} {% endif %}
+                  style="margin-right: 10px;">
+                  {% if post in liked_post %} Dislike 👎 {% else %} Like 👍 {%endif%} | {{likes}}
+                </a>
               <!-- </button> -->
               <div class="popup" onclick="savedFunction('{{post.id}}')">
               <a class="btn btn-outline-danger" style="margin-right: 10px;"
-                >Save ❤️ | <span id="saved-count"></span> {{ post.details.count }}
+                >Save ❤️| {{ random_numbers | random }}
                 <span class="popuptext" id="savedPopup-{{ post.id }}">Saved ❤️</span>
                 </a
               ></div>
               <!-- <div class="popup" onclick="myFunction('{{post.id}}')"> -->
                 <a id="myBtn-{{ post.id }}" onclick="sharedFunction('{{post.id}}')" class="btn btn-outline-dark" style="margin-right: 10px;"
-                >Share 🔗 | 51 {{ post.details.count }} 
+                >Share 🔗| {{ random_numbers | random }}
                 </a
               >
             <!-- </div> -->
@@ -96,10 +85,11 @@
 
               </div>
               <a class="btn btn-outline-info" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
-                >Comments 💬 | 7{{ post.details.count }}</a
+                >Comments 💬 | {{ comments }}</a
               >
-              <a class="btn btn-outline-dark" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
-                >Views 👀 | 56 {{ post.details.count }}</a
+              <p class="btn btn-outline-dark" href="{% url 'post-detail' post.id %}" style="margin-right: 10px;"
+                >Views 👀 | {{ random_numbers | random }}
+                </a
               >
             </div>
           </div>
@@ -111,7 +101,7 @@
       <div class="column is-one-quarter sidebar" style="margin-top: 50px; margin-left: 40px;">
         <article class="panel is-info">
           <p class="panel-heading">
-            <a href="{% url 'home' %}" style="text-decoration:none; color:white">All Snippets:</a>
+            <a href="{% url 'home' %}" style="text-decoration:none; color:white">All Code Snippets</a>
             {% if search %}
             <a href="{% url 'home' %}" style="text-decoration:none">
               <button class="button is-warning is-small is-rounded is-right" style="margin-left: 20px;">
@@ -172,20 +162,10 @@
 
 {% block jsfiles %}
 <script>
-  // Select total count
-  const savedCount = document.getElementById("saved-count");
-  // Variable to track count
-  var savedCountNum = 0;
-  // Display initial count value
-  savedCount.innerHTML = savedCountNum;
-
   // When the user clicks on <div>, open the popup
   function savedFunction(id) {
     var popup = document.getElementById("savedPopup-"+id);
     popup.classList.toggle("show");
-
-    savedCountNum++;
-    savedCount.innerHTML = savedCountNum;
     
     setTimeout(function(){
       var popup = document.getElementById("savedPopup-"+id);
