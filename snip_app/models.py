@@ -1,7 +1,8 @@
-from django.db import models
-from django.core.validators import RegexValidator
 from django import forms
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
+from django.db import models
+
 
 class Snip(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE,null=True)

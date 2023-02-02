@@ -1,8 +1,11 @@
-from django import forms
-from .models import Snip
-from feed.models import Post
 from crispy_forms.helper import FormHelper
+from django import forms
 from django.contrib.auth.models import User
+from feed.models import Post
+
+from .models import Snip
+
+
 class snipForm(forms.ModelForm):
     helper = FormHelper()
 

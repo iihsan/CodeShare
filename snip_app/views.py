@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
-from .models import Snip
-from feed.models import Post
-from .forms import snipForm, searchForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import (HttpResponse, HttpResponseRedirect, redirect,
+                              render)
+from feed.models import Post
+
+from .forms import searchForm, snipForm
+from .models import Snip
 
 
 @login_required
