@@ -13,7 +13,6 @@ class snipForm(forms.ModelForm):
         model=Post
         widgets = {'author': forms.HiddenInput()}
         fields= ('title', 'description', 'code', 'lang', 'tags', 'author')
-        # labels={'title':'Snippet Title','description':'New Snippet','code':'Secret Code','lang': 'Syntax Highlighting'}
 
 class searchForm(forms.Form):
     helper = FormHelper()
