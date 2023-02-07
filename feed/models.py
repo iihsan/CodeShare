@@ -97,9 +97,9 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 	
- 
-# Comment model links a comment with the post and the user. 
+  
 class Comments(models.Model):
+    """Comment model links a comment with the post and the user."""
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
@@ -108,10 +108,10 @@ class Comments(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.comment + " => " + self.post.title
+        return self.comment
     
 
-# It stores the like info. It has the user who created the like and the post on which like was made.
 class Like(models.Model):
+	"""It stores the like info. It has the user who created the like and the post on which like was made."""
 	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)	
